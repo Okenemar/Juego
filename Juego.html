@@ -1,41 +1,73 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Juego</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50vw;
-            height: 50vh;
-        }
+<html lang="en">
 
-        table, th, td {
-            border: 1px solid black;
-        }
-    </style>
-  </head>
-  <body>
-    <script language="JavaScript" src="http://185.60.40.210/dwc/Juegos.js" ></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="contenedor"></div>
+    <script src="http://185.60.40.210/dwc/Juegos.js"></script>
     <script>
-        function Saludo(f,c){ //f = fila, c = columna
-            alert(`Fila ${f} columna ${c}`);
-        }
-    const N=4;
-    const aPuzzle=Aleatorio(N);
-    let sHtml = " ";
-    sHtml+="<table>";
-    for (let f = 0; f < N; f++) { //Crear filas
-        sHtml+="<tr>";
-        for (let c = 0; c < N; c++) { //Crear columnas
-         sHtml+=`<td><img id="imBola${f+ "" +c}" onClick ="Saludo(`+ f + `,` + c +`)"; src="Numeros/n${aPuzzle[f][c]}.gif"</td>`; //Insertar en cada casilla una imagen
-        }
-        sHtml+="</tr>"
-    }
-    sHtml+="</table>"
-    document.write(sHtml);
+        function Cambiar(fila, columna) {
+            /*
+            alert(`Estoy en la fila ${fila} y la columna ${columna}`)
+            */
+           let img1= document.getElementById(`imBola${fila}${columna}`)
+           let img0= document.getElementById(`imBola${pos0F}${pos0C}`)
+           let suma0=pos0F+pos0C
+           let suma=fila+columna
+            if((suma-1==suma0 || suma+1==suma0)){
+                [img1.src,img0.src]= [img0.src,img1.src]
+                pos0F =fila
+                pos0C = columna
+            }
+            else{
+                alert("Imposible")
+            }
 
+        }
+
+        const contenedor = document.getElementById("contenedor")
+        const n = 3
+        const tabla = Aleatorio(n)
+        let htmlTable = "<table border=1> "
+        var pos0F=0
+        var pos0C=0
+        /*for(let i = 0; i<tabla.length; i++){
+             htmlTable+="<tr>"
+             for(let j = 0;j<tabla[i].length;j++){
+                htmlTable+=`<td> <img src="../imagenes/Numeros/n${tabla[i][j]}.gif" id="imBola${i}${j}" onClick="Cambiar(${i},${j})"> </td>`
+            }
+             }
+             htmlTable+="</tr>"
+         }*/
+
+        /*for(let i = 0; i<n; i++){
+            htmlTable+="<tr>"
+            for(let j = 0;j<n;j++){
+                htmlTable+=`<td> <img src="../imagenes/Numeros/n${tabla[i][j]}.gif" id="imBola${i}${j}" onClick="Cambiar(${i},${j})"> </td>`
+            }
+            htmlTable+="</tr>"
+            }
+        */
+        for (let i of tabla) {
+            htmlTable += "<tr>"
+            for (let j of i) {
+                if (j==0){
+                    pos0C=i.indexOf(j)
+                    pos0F=tabla.indexOf(i)
+                }
+                htmlTable += `<td> <img src="Numeros/n${j}.gif" id="imBola${tabla.indexOf(i)}${i.indexOf(j)}" onClick="Cambiar(${tabla.indexOf(i)},${i.indexOf(j)})"> </td>`
+            }
+            htmlTable += "</tr>"
+        }
+        htmlTable += "</table>"
+
+        contenedor.innerHTML = htmlTable;
     </script>
-  </body>
+</body>
+
 </html>
