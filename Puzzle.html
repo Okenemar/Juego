@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
+<style>
+    .zorionak{
+        border: 1;
+        
+    }
+</style>
 <body>
     <div id="contenedor"></div>
+    <div id="mensaje-final" class="zorionak" style="display: none;">¡Zorionak! Has completado el juego.</div>
+
     <script src="http://185.60.40.210/dwc/Juegos.js"></script>
     <script>
         function Cambiar(fila, columna) {
@@ -19,8 +26,13 @@
            let img0= document.getElementById(`imBola${pos0F}${pos0C}`)
            let suma0=pos0F+pos0C
            let suma=fila+columna
-           console.log(tabla)
-           if (comprobarSolucion()) return
+           //console.log(tabla)
+           if (comprobarSolucion()) {
+            const mensajeFinal = document.getElementById("mensaje-final")
+            mensajeFinal.style.display = "block"
+            return
+            }
+
            if((suma-1==suma0 || suma+1==suma0)){
                 [tabla[pos0F][pos0C], tabla[fila][columna]] = [tabla[fila][columna], tabla[pos0F][pos0C]];
                 [img1.src,img0.src]= [img0.src,img1.src]   
@@ -30,15 +42,20 @@
             else{
                 alert("Imposible")
             }
-            if (comprobarSolucion()) return
+            if (comprobarSolucion()){
+                const mensajeFinal = document.getElementById("mensaje-final")
+                mensajeFinal.style.display = "block"
+                return
+            } 
+
         }
         function comprobarSolucion(){
             if (Array.from({length:n*n-1}, (x,i)=>i+1).join(",")+",0" == tabla.flat()){
-                alert("Zorionak!");
                 return true;
             }
             return false;
         }
+        
         const contenedor = document.getElementById("contenedor")
         const n = 2
         const tabla = Aleatorio(n)
@@ -77,6 +94,7 @@
 
         contenedor.innerHTML = htmlTable;
     </script>
+
 </body>
 
 </html>
