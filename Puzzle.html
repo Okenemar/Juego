@@ -33,7 +33,7 @@
             if (comprobarSolucion()) return
         }
         function comprobarSolucion(){
-            if (Array.from({length:n*n-1}, (x,i)=>i+1).join(",")+",0" == tabla.flat().join(",")){
+            if (Array.from({length:n*n-1}, (x,i)=>i+1).join(",")+",0" == tabla.flat()){
                 alert("Zorionak!");
                 return true;
             }
