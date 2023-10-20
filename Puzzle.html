@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="contenedor"></div>
+    <script src="http://185.60.40.210/dwc/Juegos.js"></script>
+    <script>
+        function Cambiar(fila, columna) {
+            /*
+            alert(`Estoy en la fila ${fila} y la columna ${columna}`)
+            */
+           let img1= document.getElementById(`imBola${fila}${columna}`)
+           let img0= document.getElementById(`imBola${pos0F}${pos0C}`)
+           let suma0=pos0F+pos0C
+           let suma=fila+columna
+           console.log(tabla)
+           if (comprobarSolucion()) return
+           if((suma-1==suma0 || suma+1==suma0)){
+                [tabla[pos0F][pos0C], tabla[fila][columna]] = [tabla[fila][columna], tabla[pos0F][pos0C]];
+                [img1.src,img0.src]= [img0.src,img1.src]   
+                pos0F =fila
+                pos0C = columna
+            }
+            else{
+                alert("Imposible")
+            }
+            if (comprobarSolucion()) return
+        }
+        function comprobarSolucion(){
+            if (Array.from({length:n*n-1}, (x,i)=>i+1).join(",")+",0" == tabla.flat().join(",")){
+                alert("Zorionak!");
+                return true;
+            }
+            return false;
+        }
+        const contenedor = document.getElementById("contenedor")
+        const n = 2
+        const tabla = Aleatorio(n)
+        let htmlTable = "<table border=1> "
+        var pos0F=0
+        var pos0C=0
+        /*for(let i = 0; i<tabla.length; i++){
+             htmlTable+="<tr>"
+             for(let j = 0;j<tabla[i].length;j++){
+                htmlTable+=`<td> <img src="../imagenes/Numeros/n${tabla[i][j]}.gif" id="imBola${i}${j}" onClick="Cambiar(${i},${j})"> </td>`
+            }
+             }
+             htmlTable+="</tr>"
+         }*/
+
+        /*for(let i = 0; i<n; i++){
+            htmlTable+="<tr>"
+            for(let j = 0;j<n;j++){
+                htmlTable+=`<td> <img src="../imagenes/Numeros/n${tabla[i][j]}.gif" id="imBola${i}${j}" onClick="Cambiar(${i},${j})"> </td>`
+            }
+            htmlTable+="</tr>"
+            }
+        */
+        for (let i of tabla) {
+            htmlTable += "<tr>"
+            for (let j of i) {
+                if (j==0){
+                    pos0C=i.indexOf(j)
+                    pos0F=tabla.indexOf(i)
+                }
+                htmlTable += `<td> <img src="Numeros/n${j}.gif" id="imBola${tabla.indexOf(i)}${i.indexOf(j)}" onClick="Cambiar(${tabla.indexOf(i)},${i.indexOf(j)})"> </td>`
+            }
+            htmlTable += "</tr>"
+        }
+        htmlTable += "</table>"
+
+        contenedor.innerHTML = htmlTable;
+    </script>
+</body>
+
+</html>
